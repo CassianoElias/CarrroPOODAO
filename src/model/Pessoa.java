@@ -71,6 +71,9 @@ public class Pessoa {
         return endereco;
     }
 
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
 
     public String getTelefone() {
         return telefone;
@@ -83,10 +86,6 @@ public class Pessoa {
     @Override
     public String toString() {
         return "\n---" + "\nidPessoa:\t" + idPessoa + "\nnome\t" + nome + "\ncpf\t" + cpf + "\nendereco\t" + endereco + "\ntelefone\t" + telefone  ;
-    }
-
-    public void Endereco(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

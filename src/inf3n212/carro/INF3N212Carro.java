@@ -11,6 +11,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Carro;
 import model.Pessoa;
+import servicos.PessoaServicos;
+import servicos.ServicosFactory;
 import util.Validadores;
 
 /**
@@ -130,6 +132,7 @@ public class INF3N212Carro {
 
     private static void cadastraPessoa() {
         System.out.println("-- Cadastre a Pessoa --");
+        PessoaServicos pessoasS = ServicosFactory.getPessoaServicos();
         int idPessoa;
         String nome;
         String cpf;
@@ -142,7 +145,7 @@ public class INF3N212Carro {
             cpf = leia.nextLine();
             tcpf = Validadores.isCPF(cpf);
             if (tcpf) {
-                if (cadPessoa.getPessoaCPF(cpf) != null) {
+                if (pessoasS.getPessoaByDoc(cpf).getCpf() != null) {
                     System.out.println("CPF ja esta cadastrado!");
                     System.out.println("1 - Tentar novamente");
                     System.out.println("2 - Cancelar cadastramento");
@@ -176,8 +179,10 @@ public class INF3N212Carro {
         Pessoa p = new Pessoa(idPessoa, nome, cpf, endereco, telefone);
         cadPessoa.addPessoa(p);
         System.out.println(p.getNome() + " cadastrado(a) com sucesso");
-    }//fim cadastra Pessoa
-    //Começo do cadastrar Carro
+        pessoasS.cadastroPessoa(p);
+        System.out.println(p.getNome() + "cadastro com sucesso!");
+    }
+    
 
     private static void cadastrarCarro() {
         System.out.println("-- Cadastre Carro  --");
@@ -261,11 +266,12 @@ public class INF3N212Carro {
         boolean isCPF;
         do {
             System.out.println("Informe o CPF da pessoa a ser editado");
+            PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
             String cfp = leia.nextLine();
             isCPF = Validadores.isCPF(cfp);
             if (isCPF) {
-                Pessoa p = cadPessoa.getPessoaCPF(cfp);
-                if (p != null) {
+                Pessoa p = pessoaS.getPessoaByDoc(cfp);
+                if (p.getCpf() != null) {
                     do {
                         System.out.println("Quais dados de " + p.getNome() + " deseja alterar?");
                         System.out.println("1 - Nome");
@@ -301,7 +307,11 @@ public class INF3N212Carro {
                         }
 
                         if (op < 0 || op > 4) {
-                            System.out.println("opção invalida, tente novamente!");
+                            System.out.println("Opção invalida, tente novamente!");
+
+                        }
+                        if (op > 0 && op < 4) {
+                            pessoaS.atualizarPessoa(p);
 
                         }
                     } while (isCPF);
@@ -419,8 +429,14 @@ public class INF3N212Carro {
 
     private static void listarPessoa() {
         System.out.println("-- Lista de Pessoas --");
-        for (Pessoa pessoa : cadPessoa.getPessoa()) {
-            System.out.println(pessoa.toString());
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        if (pessoaS.getPessoas().isEmpty()) {
+            System.out.println("Não tem pessoas cadastrada no sistema!");
+            
+        }else{
+            for (Pessoa pessoa : pessoaS.getPessoas()) {
+                System.out.println(pessoa.toString());
+            }
         }
     }
 
@@ -484,16 +500,18 @@ public class INF3N212Carro {
         do {
 
             System.out.print("Informe o CPF ser deletada: ");
+            PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
             String cpf = leia.nextLine();
             delCPF = Validadores.isCPF(cpf);
             if (delCPF) {
-                Pessoa p = cadPessoa.getPessoaCPF(cpf);
-                if (p != null) {
-                    System.out.println("Desena realmente deletar " + p.getNome() + "?");
+                Pessoa p = pessoaS.getPessoaByDoc(cpf);
+                if (p.getCpf() != null) {
+                    System.out.println("Deseja realmente deletar " + p.getNome() + "?");
                     System.out.print("1 - Sim | 2 - Não: ");
                     int op = leiaNumInt();
                     if (op == 1) {
-                        cadPessoa.removePessoa(p);
+                        //cadPessoa.removePessoa(p);
+                        pessoaS.deletarPessoa(cpf);
                         System.out.println("Pessoa deletada com sucesso!");
                         delCPF = false;
                     } else {
