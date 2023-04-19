@@ -11,6 +11,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Carro;
 import model.Pessoa;
+import servicos.CarroServicos;
 import servicos.PessoaServicos;
 import servicos.ServicosFactory;
 import util.Validadores;
@@ -196,14 +197,17 @@ public class INF3N212Carro {
         String combustivel;
         Pessoa proprietario;
         boolean pCarro = true;
+        CarroServicos carroS = ServicosFactory.getCarroServicos();
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
         do {
             System.out.println("Informe a Placa");
             placa = leia.nextLine();
             placa = placa.toUpperCase();
             pCarro = Validadores.validarPlaca(placa);
             if (pCarro) {
-                Carro carro = cadCarro.getCarroPlaca(placa);
-                if (carro == null) {
+                //Carro carro = carroS.getCarroByDoc(placa);
+                Carro carro = carroS.getCarroByDoc(placa);
+                if (carro.getPlaca() == null) {
                     System.out.println("-- INICIAR CADASTRAMENTO DE VEICULO --");
                     System.out.println("placa: " + placa);
                     System.out.print("Informe a marca: ");
@@ -228,7 +232,8 @@ public class INF3N212Carro {
                     do {
                         System.out.println("Informe o CPF do proprietário: ");
                         String cpf = leia.nextLine();
-                        proprietario = cadPessoa.getPessoaCPF(cpf);
+                        //proprietario = cadPessoa.getPessoaCPF(cpf);
+                        proprietario = pessoaS.getPessoaByDoc(cpf);
                         if (proprietario == null) {
                             System.out.println("CPF não cadastrado," + "tente novamente!");
                         } else {
@@ -246,7 +251,8 @@ public class INF3N212Carro {
                     } while (proprietario == null);
                     pCarro = false;
                     Carro c = new Carro(placa, marca, modelo, anoFab, anoMod, cor, tpCambio, combustivel, proprietario);
-                    cadCarro.addCarro(c);
+                    //cadCarro.addCarro(c);
+                    carroS.cadastroCarro(c);
                     System.out.println("Carro cadastrado com sucesso");
                 } else {
                     System.out.println("Placa ja Cadastrada");
