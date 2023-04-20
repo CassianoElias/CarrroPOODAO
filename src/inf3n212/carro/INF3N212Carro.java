@@ -342,7 +342,7 @@ public class INF3N212Carro {
 
     private static void editarCarro() {
         System.out.println("-- Editar --");
-        CarroServicos carroS = ServicosFactory.getCarroServicos();
+       CarroServicos carroS = ServicosFactory.getCarroServicos();
         boolean isPlaca;
         do {
             System.out.print("Informe a Placa: ");
@@ -415,6 +415,8 @@ public class INF3N212Carro {
                     }
                     if (op < 0 || op > 5) {
                         System.out.println("Opção inválida!");
+                    }else{
+                        carroS.atualizarCarro(c);
                     }
                     isPlaca = false;
                 } else {

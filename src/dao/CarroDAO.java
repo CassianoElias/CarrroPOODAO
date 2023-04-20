@@ -105,7 +105,7 @@ public class CarroDAO {
     public void atualizarCarro(Carro cVO){
         try {
             Connection con = Conexao.getConexao();
-            String sql = "update carros set cor = ?, tpCambio = ?, combustivel = ?, proprietario = ?, where placa = ? ";
+            String sql = "update carros set cor = ?, tpCambio = ?, combustivel = ?, proprietario = ?, where placa = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, cVO.getCor());
             pst.setString(2, cVO.getTpCambio());
