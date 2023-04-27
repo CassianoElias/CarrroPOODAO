@@ -15,6 +15,7 @@ import servicos.CarroServicos;
 import servicos.PessoaServicos;
 import servicos.ServicosFactory;
 import util.Validadores;
+import view.JFPrincipal;
 
 /**
  *
@@ -31,6 +32,9 @@ public class INF3N212Carro {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        JFPrincipal janela = new JFPrincipal();
+        janela.setVisible(true);
+        /*
         cadPessoa.mockPessoas();
         cadCarro.mockCarros();
         int opM = 99;
@@ -91,7 +95,7 @@ public class INF3N212Carro {
                     System.out.println("Opção invalida, tente novamente");
             }
         } while (opM != 0);
-
+*/
     }// fim metodo main
 
     public static int leiaNumInt() {
@@ -341,11 +345,11 @@ public class INF3N212Carro {
     }
 
     private static void editarCarro() {
-        System.out.println("-- Editar --");
-       CarroServicos carroS = ServicosFactory.getCarroServicos();
+        System.out.println("-- Editar Carro --");
+        CarroServicos carroS = ServicosFactory.getCarroServicos();
         boolean isPlaca;
         do {
-            System.out.print("Informe a Placa: ");
+            System.out.print("Informe a placa: ");
             String placa = leia.nextLine();
             placa = placa.toUpperCase();
             isPlaca = Validadores.validarPlaca(placa);
@@ -356,13 +360,13 @@ public class INF3N212Carro {
                     System.out.println(c.toString());
                     System.out.println("O que deseja alterar?");
                     System.out.println("1 - Cor");
-                    System.out.println("2 - Tipo de cambio");
-                    System.out.println("3 - Tipo de combustivel");
-                    System.out.println("4 - Proprietario");
+                    System.out.println("2 - Tipo de câmbio");
+                    System.out.println("3 - Tipo de combustível");
+                    System.out.println("4 - Proprietário");
                     System.out.println("5 - Todos");
                     System.out.println("0 - Cancelar");
-                    System.out.print("Digite Aqui: ");
-                     int op = leiaNumInt();
+                    System.out.print("Digite sua escolha aqui: ");
+                    int op = leiaNumInt();
                     if (op == 1 || op == 5) {
                         System.out.print("Informe a nova cor: ");
                         c.setCor(leia.nextLine().toUpperCase());
@@ -378,7 +382,7 @@ public class INF3N212Carro {
                     if (op == 4 || op == 5) {
                         boolean isCPF;
                         do {
-                                        System.out.print("Informe o CPF proprietário: ");
+                            System.out.print("Informe o CPF proprietário: ");
                             String cpf = leia.nextLine();
                             isCPF = Validadores.isCPF(cpf);
                             if (isCPF) {
@@ -403,7 +407,7 @@ public class INF3N212Carro {
                                         cadastraPessoa();
                                     }
                                 }
-                            }else{
+                            } else {
                                 System.out.println("CPF inválido, tente novamente!");
                                 isCPF = true;
                             }
